@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<iostream>
+using namespace std;
+typedef int ElemType;
+typedef struct DNode
+{
+	ElemType date;
+	struct DNode* prior;
+	struct DNode* next;
+}DLinkNode;
+void CreateListF(DLinkNode*& L, ElemType a[], int n)
+{
+	DLinkNode* s;
+	L = (DLinkNode*)malloc(sizeof(DLinkNode));
+	L->prior=L->next = NULL;
+	for (int i = 0; i < n; i++)
+	{
+		s= (DLinkNode*)malloc(sizeof(DLinkNode));
+		s->date = a[i];
+		s->next = L->next;
+		if (L->next != NULL)
+			L->next ->prior = s;
+		L->next = s;
+		s->prior = L;
+	}
+}
+void CreateListR(DLinkNode*& L, ElemType a[], int n)
+{
+	DLinkNode* s, * r;
+	L = (DLinkNode*)malloc(sizeof(DLinkNode));
+	r = L;
+	for (int i = 0; i < n; i++)
+	{
+		s= (DLinkNode*)malloc(sizeof(DLinkNode));
+		s->date = a[i];
+		r->next = s;
+		s->prior = r;
+		r = s;
+	}
+	r->next = NULL;
+}
+void DispList(DLinkNode* L)
+{
+	DLinkNode* p = L->next;
+	while (p != NULL)
+	{
+		cout << p->date << " ";
+		p = p->next;
+	}
+	cout << endl;
+}
+int main()
+{
+	int a[10] = { 0,1,2,3,4,5,6,7,8,9 }, n = 10,b=0;
+	DLinkNode* L1, * L2;
+	cout << "数组数据为0 1 2 3 4 5 6 7 8 9" << endl;
+	cout << "1.头插法输出双链表" << endl;
+	cout << "2.尾插法输出双链表" << endl;
+	cout << "请输入序号:";
+	cin >> b;
+	if (b == 1)
+	{
+		CreateListF(L1, a, n);
+		DispList(L1);
+	}
+	if (b == 2)
+	{
+		CreateListR(L2, a, n);
+		DispList(L2);
+	}
+}
